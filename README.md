@@ -10,7 +10,7 @@
 https://raw.githubusercontent.com/cresseelia/shadowrocket-policy/main/generated/native-reject.module
 ```
 
-模块名称为 `Shadowrocket Privacy Reject`，独立于 iOS-NOIR。保留上述 GitHub 订阅地址，使用「更新模块」获取新版本；开启模块页「保存到 iCloud」可同步模块。GitHub 提供规则更新，iCloud 同步模块数据，两者分别负责不同用途。
+模块名称为 `Shadowrocket Privacy Reject`。保留上述 GitHub 订阅地址，使用「更新模块」获取新版本；开启模块页「保存到 iCloud」可同步模块。GitHub 提供规则更新，iCloud 同步模块数据，两者分别负责不同用途。
 
 主配置关闭 HTTPS/SVCB DNS 查询转发，并引用国内规则集（合并到已有段落）：
 
