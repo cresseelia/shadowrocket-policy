@@ -1,0 +1,6 @@
+# Confirm normal-feature exceptions against an actual request and rule first.
+# An overlapping broad rejection is withheld from the early module, not expanded
+# into a main-domain whitelist. Existing feature/routing behavior is retained.
+[allow]
+exact = []
+suffix = []

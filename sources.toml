@@ -1,0 +1,70 @@
+# Keep public upstream addresses here. Private DNS URLs never belong in this file.
+# routing merges base rules; dns with early=true adds feature-module domain rejects.
+
+[[sources]]
+name = "china-domains"
+url = "https://cdn.jsdelivr.net/gh/blackmatrix7/ios_rule_script@master/rule/Shadowrocket/ChinaMaxNoIP/ChinaMaxNoIP_Domain.list"
+format = "domainset"
+policy = "DIRECT"
+use = "routing"
+min_domains = 50000
+
+[[sources]]
+name = "china-other"
+url = "https://cdn.jsdelivr.net/gh/blackmatrix7/ios_rule_script@master/rule/Shadowrocket/ChinaMaxNoIP/ChinaMaxNoIP.list"
+format = "rules"
+policy = "DIRECT"
+use = "routing"
+min_domains = 1
+
+[[sources]]
+name = "gmo-direct"
+url = "https://cdn.jsdelivr.net/gh/GMOogway/shadowrocket-rules@master/sr_direct_list.module"
+format = "module"
+policy = "DIRECT"
+use = "routing"
+min_domains = 50000
+
+[[sources]]
+name = "main-reject"
+url = "https://cdn.jsdelivr.net/gh/Vincent-Loeng/shadowrocket-rules@release/reject.list"
+format = "rules"
+policy = "REJECT"
+use = "routing"
+min_domains = 100000
+
+[[sources]]
+name = "gmo-reject"
+url = "https://cdn.jsdelivr.net/gh/GMOogway/shadowrocket-rules@master/sr_reject_list.module"
+format = "module"
+policy = "REJECT"
+use = "routing"
+min_domains = 100000
+
+[[sources]]
+name = "ad-platform"
+url = "https://kelee.one/Tool/Loon/Lpx/BlockAdvertisers.lpx"
+format = "module"
+policy = "REJECT"
+use = "dns"
+early = true
+min_domains = 100
+fallback = "snapshots/ad-platform.module"
+fallback_recorded = "2026-11-08"
+fallback_max_days = 7
+
+[[sources]]
+name = "httpdns"
+url = "https://kelee.one/Tool/Loon/Lpx/Block_HTTPDNS.lpx"
+format = "module"
+policy = "REJECT"
+use = "dns"
+early = true
+min_domains = 10
+fallback = "snapshots/httpdns.module"
+fallback_recorded = "2026-11-08"
+fallback_max_days = 7
+
+[checks]
+early = ["metrics-picture.d.meituan.net", "spider-tracker.xiaohongshu.com", "catfront.dianping.com"]
+early_unbound = ["www.baidu.com", "www.google.com"]

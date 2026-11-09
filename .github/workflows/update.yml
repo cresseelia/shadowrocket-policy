@@ -1,0 +1,56 @@
+name: Generate policy
+
+on:
+  schedule:
+    - cron: '23 10 * * *'
+  workflow_dispatch:
+  push:
+    branches: [main]
+    paths:
+      - generate.py
+      - test_generate.py
+      - sources.toml
+      - corrections.toml
+      - snapshots/**
+      - shields/**
+      - .github/workflows/update.yml
+
+permissions:
+  contents: write
+
+concurrency:
+  group: policy-generation
+  cancel-in-progress: false
+
+jobs:
+  generate:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Verify generation behavior
+        run: python -m unittest -v
+      - name: Fetch, validate and generate all outputs
+        run: python generate.py
+      - name: Report cached upstreams
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          sources = json.loads(Path('generated/manifest.json').read_text())['sources']
+          for source in sources:
+              if source['fallback']:
+                  print('::warning::Using dated DNS scope snapshot for ' + source['name'] + '; upstream fetch or parsing failed.')
+          PY
+      - name: Publish successful generation
+        run: |
+          git add -- generated/native-reject.module generated/reject-deferred.list generated/direct.list generated/manifest.json
+          if git diff --cached --quiet; then
+            echo 'Sources and generated policy are unchanged.'
+            exit 0
+          fi
+          git -c user.name='github-actions[bot]' -c user.email='41898282+github-actions[bot]@users.noreply.github.com' commit -m 'Update generated policy'
+          git push origin HEAD:main

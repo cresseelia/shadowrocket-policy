@@ -1,0 +1,115 @@
+{
+  "sources": [
+    {
+      "name": "china-domains",
+      "url": "https://cdn.jsdelivr.net/gh/blackmatrix7/ios_rule_script@master/rule/Shadowrocket/ChinaMaxNoIP/ChinaMaxNoIP_Domain.list",
+      "sha256": "24e1ef3168f178538ae23f85ea027930835205e56b124c002ddf89e0f9a9f3e4",
+      "domains": 110104,
+      "extra_rules": 0,
+      "fallback": false,
+      "fallback_recorded": null,
+      "skipped_other_policies": 0
+    },
+    {
+      "name": "china-other",
+      "url": "https://cdn.jsdelivr.net/gh/blackmatrix7/ios_rule_script@master/rule/Shadowrocket/ChinaMaxNoIP/ChinaMaxNoIP.list",
+      "sha256": "691e62885382b16b1170b03ebebb4b6dc72d820289ecc61b8af58073f023a527",
+      "domains": 47,
+      "extra_rules": 78,
+      "fallback": false,
+      "fallback_recorded": null,
+      "skipped_other_policies": 0
+    },
+    {
+      "name": "gmo-direct",
+      "url": "https://cdn.jsdelivr.net/gh/GMOogway/shadowrocket-rules@master/sr_direct_list.module",
+      "sha256": "94f54d88f93b82467cdf98f46dda48ccf9845e68cf205566e37995f86c1664d8",
+      "domains": 110191,
+      "extra_rules": 8,
+      "fallback": false,
+      "fallback_recorded": null,
+      "skipped_other_policies": 0
+    },
+    {
+      "name": "main-reject",
+      "url": "https://cdn.jsdelivr.net/gh/Vincent-Loeng/shadowrocket-rules@release/reject.list",
+      "sha256": "f184c7da2c54afa7074778c1348b8328b38d1021874760bab5ff08090fe9cf2d",
+      "domains": 199844,
+      "extra_rules": 0,
+      "fallback": false,
+      "fallback_recorded": null,
+      "skipped_other_policies": 0
+    },
+    {
+      "name": "gmo-reject",
+      "url": "https://cdn.jsdelivr.net/gh/GMOogway/shadowrocket-rules@master/sr_reject_list.module",
+      "sha256": "b7566cee93f263d30f3afa1a14c3ba36bcbd4363291799b457079df9807842f5",
+      "domains": 199851,
+      "extra_rules": 0,
+      "fallback": false,
+      "fallback_recorded": null,
+      "skipped_other_policies": 0
+    },
+    {
+      "name": "ad-platform",
+      "url": "https://kelee.one/Tool/Loon/Lpx/BlockAdvertisers.lpx",
+      "sha256": "91e5a18789e7dbd7618525385d793172c28a6203aa89674d58ca7b493bcf94fe",
+      "domains": 306,
+      "extra_rules": 0,
+      "fallback": true,
+      "fallback_recorded": "2026-11-08",
+      "skipped_other_policies": 5
+    },
+    {
+      "name": "httpdns",
+      "url": "https://kelee.one/Tool/Loon/Lpx/Block_HTTPDNS.lpx",
+      "sha256": "a6961e6d11b42d25cc4b4d736ea8aa94054c0ef71607339cfa28f38b26f7ed3b",
+      "domains": 64,
+      "extra_rules": 0,
+      "fallback": true,
+      "fallback_recorded": "2026-11-08",
+      "skipped_other_policies": 0
+    }
+  ],
+  "routing_direct_rules": 112811,
+  "native_early_reject_rules": 200169,
+  "native_deferred_rules": [
+    {
+      "kind": "DOMAIN-SUFFIX",
+      "domain": "jiguang.cn",
+      "reason": "overlaps explicit exception or another feature policy"
+    },
+    {
+      "kind": "DOMAIN-SUFFIX",
+      "domain": "mob.com",
+      "reason": "overlaps explicit exception or another feature policy"
+    }
+  ],
+  "native_protected_scopes": 5,
+  "deferred_connection_rules": 0,
+  "coverage_checks": {
+    "early": [
+      "metrics-picture.d.meituan.net",
+      "spider-tracker.xiaohongshu.com",
+      "catfront.dianping.com"
+    ],
+    "early_unbound": [
+      "www.baidu.com",
+      "www.google.com"
+    ]
+  },
+  "files": {
+    "native-reject.module": {
+      "bytes": 10998872,
+      "sha256": "3e72f8cf9883ecfbba4bd96d2d8dfa0c9ed96d902dfe0e2be6284751d6aa8b05"
+    },
+    "reject-deferred.list": {
+      "bytes": 86,
+      "sha256": "6c74b582fed1e26c1171b957f2b0bac3da24cd89601378faa0e60b86c8ec22db"
+    },
+    "direct.list": {
+      "bytes": 3009106,
+      "sha256": "d792184b89442f51f048c2cfd17696b391d4512b1bc2623c3853226a316dcdaf"
+    }
+  }
+}
