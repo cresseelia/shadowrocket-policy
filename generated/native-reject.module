@@ -1,4 +1,4 @@
-#!name=NOIR Native Privacy Reject
+#!name=Shadowrocket Privacy Reject
 #!desc=Whole-domain native pre-matching; explicit exceptions are deferred.
 # Source hashes: manifest.json.
 [Rule]

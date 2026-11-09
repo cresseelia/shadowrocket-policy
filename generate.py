@@ -174,7 +174,7 @@ def build(parsed, checks, corrections=None):
             raise ValueError('A normal control was included in the early-reject module')
     files = {}
     files['native-reject.module'] = (
-        '#!name=NOIR Native Privacy Reject\n'
+        '#!name=Shadowrocket Privacy Reject\n'
         '#!desc=Whole-domain native pre-matching; explicit exceptions are deferred.\n'
         '# Source hashes: manifest.json.\n'
         '[Rule]\n'

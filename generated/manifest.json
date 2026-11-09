@@ -100,8 +100,8 @@
   },
   "files": {
     "native-reject.module": {
-      "bytes": 10998872,
-      "sha256": "3e72f8cf9883ecfbba4bd96d2d8dfa0c9ed96d902dfe0e2be6284751d6aa8b05"
+      "bytes": 10998873,
+      "sha256": "f5fc593ec8df8ca14116c3b84688323799505c0ad1b925ffae3c9832c3f8deee"
     },
     "reject-deferred.list": {
       "bytes": 86,

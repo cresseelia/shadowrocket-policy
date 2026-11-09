@@ -10,6 +10,8 @@
 https://raw.githubusercontent.com/cresseelia/shadowrocket-policy/main/generated/native-reject.module
 ```
 
+模块名称为 `Shadowrocket Privacy Reject`，独立于 iOS-NOIR。保留上述 GitHub 订阅地址，使用「更新模块」获取新版本；开启模块页「保存到 iCloud」可同步模块。GitHub 提供规则更新，iCloud 同步模块数据，两者分别负责不同用途。
+
 主配置关闭 HTTPS/SVCB DNS 查询转发，并引用国内规则集（合并到已有段落）：
 
 ```ini
@@ -20,11 +22,9 @@ allow-dns-svcb = false
 RULE-SET,https://raw.githubusercontent.com/cresseelia/shadowrocket-policy/main/generated/direct.list,DIRECT
 ```
 
-主配置继续保留自己的节点、自建 DNS、特殊分流和最终策略。正式隐私模块只包含拒绝规则，不修改全局 DNS 设置；全量规则的手机性能与误伤仍需验收。切换验收后，停用被替代的 GMO reject/direct 模块和重复拒绝引用，GMO 数据仍作为上游每日合并。
+主配置继续保留自己的节点、自建 DNS、特殊分流和最终策略。正式隐私模块只包含拒绝规则，不修改全局 DNS 设置。全量模块已在手机加载，DNS 抽样对照通过；具体 App 功能仍需逐项验证。启用后停用被替代的 GMO reject/direct 模块和重复拒绝引用，GMO 数据仍作为上游每日合并。
 
 证书、Plugin2Rocket、HTTPDNS、广告平台、墨鱼及实际需要的小红书/彩云/DiDiClean 功能模块继续按需使用。
-
-三域小补丁：[verified-interim.module](https://raw.githubusercontent.com/cresseelia/shadowrocket-policy/main/shields/verified-interim.module)。它仅覆盖三个追踪域，并兼容保留关闭 SVCB 的设置；主配置迁移完成后再停用。
 
 ## 维护
 
