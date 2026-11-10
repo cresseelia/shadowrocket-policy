@@ -25,6 +25,16 @@ LIMIT = 24_000_000
 ADBLOCK_URL = 'https://raw.githubusercontent.com/cresseelia/shadowrocket-policy/main/generated/adblock.module'
 CHATGPT_EMPTY_STATUS = (r'^https?:\/\/ios\.chat\.openai\.com\/public-api\/mobile\/app_support_status '
                        'data-type=json data="{}" status-code=200')
+TRAVELCUBE_GIF = (r'^https?:\/\/p\d\.meituan\.net\/travelcube\/(?!c129a661)\w+\.gif '
+                  'data-type=tiny-gif status-code=200')
+TRAVELCUBE_THUMB = (r'^https?:\/\/p\d\.meituan\.net\/travelcube\/'
+                    r'(?!1d4a663|52e9bfc|29a6227|412c4ac|6ee35c4|13bf0bf|ab8692e|6858b1d).+@100w_100h '
+                    'data-type=tiny-gif status-code=200')
+TRAVELCUBE_EXCEPTIONS = 'c129a661|1d4a663|52e9bfc|29a6227|412c4ac|6ee35c4|13bf0bf|ab8692e|6858b1d'
+TRAVELCUBE_FIXES = {
+    line: re.sub(r'\(\?![^)]+\)', '(?!' + TRAVELCUBE_EXCEPTIONS + ')', line, count=1)
+    for line in (TRAVELCUBE_GIF, TRAVELCUBE_THUMB)
+}
 
 
 @dataclass
@@ -254,7 +264,7 @@ def fetch(source, source_root=Path('.')):
 
 
 def curate_adblock(source, body):
-    """Keep upstream features in order; omit the verified empty status response."""
+    """Keep upstream order; restore status and honor existing image exceptions."""
     text = body.decode('utf-8-sig')
     if '<html' in text[:1024].lower() or text.lstrip().startswith('<!DOCTYPE'):
         raise ValueError('HTML received instead of the adblock module')
@@ -265,6 +275,7 @@ def curate_adblock(source, body):
     sections = set()
     output = []
     removed = 0
+    repaired_images = 0
     renamed = 0
     rule_count = 0
     for raw in lines:
@@ -286,6 +297,12 @@ def curate_adblock(source, body):
                 raise ValueError('ChatGPT status rewrite changed; review before publishing')
             removed += 1
             continue
+        elif 'travelcube' in line:
+            if section != '[map local]' or line not in TRAVELCUBE_FIXES:
+                raise ValueError('Travelcube image rewrite changed; review before publishing')
+            output.append(raw.replace(line, TRAVELCUBE_FIXES[line], 1))
+            repaired_images += 1
+            continue
         elif section == '[rule]':
             rule_count += 1
         output.append(raw)
@@ -295,6 +312,7 @@ def curate_adblock(source, body):
         raise ValueError('Adblock rules fell below their minimum count')
     return ''.join(output), {'url': source['url'], 'sha256': hashlib.sha256(body).hexdigest(),
                             'removed_empty_chatgpt_status_rules': removed,
+                            'repaired_travelcube_exception_rules': repaired_images,
                             'preserved_rule_count': rule_count}
 
 

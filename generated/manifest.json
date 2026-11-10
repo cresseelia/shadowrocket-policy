@@ -112,14 +112,15 @@
       "sha256": "d792184b89442f51f048c2cfd17696b391d4512b1bc2623c3853226a316dcdaf"
     },
     "adblock.module": {
-      "bytes": 373329,
-      "sha256": "a3c30df35a06609d8498b775267fc4853c9c6921b7012b64c49f219846413043"
+      "bytes": 373402,
+      "sha256": "f8630c2e1e1c93ed069d053f2894556eda0ebba7a5d7300c655b30ff83272b8c"
     }
   },
   "adblock_source": {
     "url": "https://raw.githubusercontent.com/zirawell/R-Store/refs/heads/main/Rule/Surge/Adblock/All/allAdBlock.sgmodule",
     "sha256": "efc86dde4d26b9e503f64893d243a4db63427b3f00f085285630194002e1d3e7",
     "removed_empty_chatgpt_status_rules": 1,
+    "repaired_travelcube_exception_rules": 2,
     "preserved_rule_count": 1443
   }
 }

@@ -38,11 +38,11 @@ RULE-SET,https://raw.githubusercontent.com/cresseelia/shadowrocket-policy/main/g
 | --- | --- | --- |
 | `direct.list` | [blackmatrix7 ChinaMaxNoIP](https://github.com/blackmatrix7/ios_rule_script/tree/master/rule/Shadowrocket/ChinaMaxNoIP) 的 Domain/list 两表；[GMOogway direct](https://github.com/GMOogway/shadowrocket-rules/blob/master/sr_direct_list.module) | 合并、去重，移除内嵌 DIRECT 策略，由主配置引用时指定；保留域名类型、匹配选项和其他分流规则。 |
 | `native-reject.module` | [Vincent-Loeng reject](https://github.com/Vincent-Loeng/shadowrocket-rules/blob/release/reject.list)、[GMOogway reject](https://github.com/GMOogway/shadowrocket-rules/blob/master/sr_reject_list.module)，补充[可莉广告平台](https://kelee.one/Tool/Loon/Lpx/BlockAdvertisers.lpx)和[HTTPDNS](https://kelee.one/Tool/Loon/Lpx/Block_HTTPDNS.lpx)的纯域名拒绝 | 合并、去重，在实际 DOMAIN/DOMAIN-SUFFIX 规则上加 `REJECT,pre-matching`；不把 URL 路径规则扩大为整域拒绝。与明确例外重叠的范围退出提前拒绝。 |
-| `adblock.module` | [zirawell/R-Store 全部广告合集](https://github.com/zirawell/R-Store/blob/main/Rule/Surge/Adblock/All/allAdBlock.sgmodule) | 移除把 `ios.chat.openai.com/public-api/mobile/app_support_status` 替换为 `{}` 的 Map Local 规则，恢复真实接口响应；修改显示名称和订阅地址，保留原作者署名及其余规则、改写、脚本和顺序。 |
+| `adblock.module` | [zirawell/R-Store 全部广告合集](https://github.com/zirawell/R-Store/blob/main/Rule/Surge/Adblock/All/allAdBlock.sgmodule) | 移除把 `ios.chat.openai.com/public-api/mobile/app_support_status` 替换为 `{}` 的 Map Local 规则，恢复真实接口响应；统一两条美团 `travelcube` 图片规则已有的例外，避免相互覆盖。修改显示名称和订阅地址，保留原作者署名及其余规则、改写、脚本和顺序。 |
 
-以上产物每日从对应上游重新生成；上游未再包含该 ChatGPT 改写时不额外处理，若其形式或语义改变则停止发布并等待核对。
+以上产物每日从对应上游重新生成；上游已移除上述改写时不额外处理，若其形式或语义改变则停止发布并等待核对。
 
-兼容版目前只修正已确认的 ChatGPT 空响应误伤。美团 `layout.meituan.net` 整域拒绝及 `travelcube` 图片改写仍沿用上游，尚待业务对照验证。
+ChatGPT 空响应误伤已修正；美团图片例外冲突已通过规则匹配回归检查，具体页面仍待实机验证。`layout.meituan.net` 整域拒绝仍沿用上游，尚待业务对照验证。
 
 ## 维护
 

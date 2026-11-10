@@ -2567,7 +2567,7 @@ DOMAIN-KEYWORD, wan.sogou.com, REJECT, extended-matching, pre-matching
 ^https?:\/\/apiproxy\.zuche\.com\/resource\/carrctapi\/home\/page\/advertising data-type=json data="{}" status-code=200
 ^https?:\/\/api\.jxedt\.com\/jump\/EMiCcDNp data-type=tiny-gif status-code=200
 ^https?:\/\/(cdn-)?api\.kkmh\.com\/v\d\/checkin\/task_center\/get_by_task_type data-type=json data="{}" status-code=200
-^https?:\/\/p\d\.meituan\.net\/travelcube\/(?!c129a661)\w+\.gif data-type=tiny-gif status-code=200
+^https?:\/\/p\d\.meituan\.net\/travelcube\/(?!c129a661|1d4a663|52e9bfc|29a6227|412c4ac|6ee35c4|13bf0bf|ab8692e|6858b1d)\w+\.gif data-type=tiny-gif status-code=200
 ^https?:\/\/acs\.m\.shyhhema\.com\/h5\/mtop\.wdk\.fc\.recommend\.feeds data-type=json data="{}" status-code=200
 ^https?:\/\/api\.weibo\.cn\/2\/!\/huati\/(discovery_home_bottom_getdotinfo|mobile_discovery_searchchange)\? data-type=json data="{}" status-code=200
 ^https?:\/\/customer-app\.sto\.cn\/api\/app\/banner\/banner data-type=json data="{}" status-code=200
@@ -2775,7 +2775,7 @@ DOMAIN-KEYWORD, wan.sogou.com, REJECT, extended-matching, pre-matching
 ^https?:\/\/d\.socdm\.com\/adsv\/ data-type=json data="{}" status-code=200
 ^https?:\/\/(?>api-cslp-emt|api\.globalstore)\.amazon\.cn\/gateway\/recommend data-type=json data="{}" status-code=200
 ^https?:\/\/api\.pinduoduo\.com\/api\/zaire_biz\/chat\/resource\/get_list_data data-type=json data="{}" status-code=200
-^https?:\/\/p\d\.meituan\.net\/travelcube\/(?!1d4a663|52e9bfc|29a6227|412c4ac|6ee35c4|13bf0bf|ab8692e|6858b1d).+@100w_100h data-type=tiny-gif status-code=200
+^https?:\/\/p\d\.meituan\.net\/travelcube\/(?!c129a661|1d4a663|52e9bfc|29a6227|412c4ac|6ee35c4|13bf0bf|ab8692e|6858b1d).+@100w_100h data-type=tiny-gif status-code=200
 ^https?:\/\/(cdn-)?api\.kkmh\.com\/v\d\/checkin\/api\/new_user\/tab_info data-type=json data="{}" status-code=200
 ^https?:\/\/www\.gcores\.com\/gapi\/v\d\/app-start-pages\?page data-type=json data="{}" status-code=200
 ^https?:\/\/app\.chinahxzq\.com\.cn(:\d+)?\/starway(-api)?\/ad data-type=json data="{}" status-code=200

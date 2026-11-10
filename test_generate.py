@@ -1,11 +1,13 @@
 import json
+import re
 import datetime
 from pathlib import Path
 import tempfile
 import unittest
 from unittest.mock import patch
 
-from generate import add_adblock, build, curate_adblock, fetch, parse, write_outputs
+from generate import (TRAVELCUBE_EXCEPTIONS, TRAVELCUBE_GIF, TRAVELCUBE_THUMB,
+                      add_adblock, build, curate_adblock, fetch, parse, write_outputs)
 
 
 def source(name='test', policy='REJECT', use='routing', format='module', early=False):
@@ -62,6 +64,36 @@ class GenerationTests(unittest.TestCase):
         body = self.adblock_fixture().replace(rb'ios\.chat', b'ios.chat')
         with self.assertRaisesRegex(ValueError, 'status rewrite changed'):
             curate_adblock(config, body)
+
+    def test_travelcube_existing_exceptions_survive_both_image_rules(self):
+        config = {'url': 'https://example.com/adblock.module', 'min_lines': 1, 'min_rules': 1}
+        original_rules = [TRAVELCUBE_GIF, TRAVELCUBE_THUMB]
+        body = self.adblock_fixture('\n'.join(original_rules) + '\n')
+        result, metadata = curate_adblock(config, body)
+        patterns = [re.compile(line.split(' ', 1)[0]) for line in result.splitlines()
+                    if 'travelcube' in line]
+        self.assertEqual(len(patterns), 2)
+        self.assertEqual(metadata['repaired_travelcube_exception_rules'], 2)
+        for prefix in TRAVELCUBE_EXCEPTIONS.split('|'):
+            for ext in ('.gif', '.gif@100w_100h', '.jpg@100w_100h'):
+                url = 'https://p0.meituan.net/travelcube/' + prefix + 'abcdef' + ext
+                with self.subTest(prefix=prefix, ext=ext):
+                    self.assertFalse(any(pattern.match(url) for pattern in patterns))
+        # Other advertising images are still replaced; neighboring hosts and
+        # resource buckets retain their previous treatment.
+        self.assertTrue(patterns[0].match('https://p1.meituan.net/travelcube/deadbeef.gif'))
+        self.assertTrue(patterns[1].match('https://p1.meituan.net/travelcube/deadbeef.jpg@100w_100h'))
+        for url in ('https://p1.meituan.net/photos/deadbeef.gif',
+                    'https://p1.meituan.net/travelcube/deadbeef.jpg',
+                    'https://example.com/travelcube/deadbeef.gif'):
+            self.assertFalse(any(pattern.match(url) for pattern in patterns))
+        self.assertIn('DOMAIN,ads.example.com,REJECT,pre-matching', result)
+
+    def test_travelcube_changed_rules_stop_publication(self):
+        config = {'url': 'https://example.com/adblock.module', 'min_lines': 1, 'min_rules': 1}
+        changed = TRAVELCUBE_THUMB.replace('100w_100h', '200w_200h')
+        with self.assertRaisesRegex(ValueError, 'image rewrite changed'):
+            curate_adblock(config, self.adblock_fixture(changed + '\n'))
 
     def test_domainset_leading_dot_and_tld_are_preserved(self):
         item = parse(source('cn', 'DIRECT', format='domainset'), b'# comment\n.cn\n.example.com\nexact.example.org\n')
