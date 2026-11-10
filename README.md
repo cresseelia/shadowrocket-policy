@@ -24,7 +24,7 @@ RULE-SET,https://raw.githubusercontent.com/cresseelia/shadowrocket-policy/main/g
 
 主配置继续保留自己的节点、自建 DNS、特殊分流和最终策略。正式隐私模块只包含拒绝规则，不修改全局 DNS 设置。全量模块已在手机加载，DNS 抽样对照通过；具体 App 功能仍需逐项验证。启用后停用被替代的 GMO reject/direct 模块和重复拒绝引用，GMO 数据仍作为上游每日合并。
 
-证书、Plugin2Rocket、HTTPDNS、广告平台、墨鱼及实际需要的小红书/彩云/DiDiClean 功能模块继续按需使用。
+为减少误伤，默认停用“全部-广告拦截合集”和“墨鱼去开屏 2.0”这类跨 App 改写合集，避免把正常功能接口替换为空响应。证书、Plugin2Rocket、HTTPDNS、广告平台及实际需要的小红书/彩云/DiDiClean 专项模块按需保留；部分开屏、推荐广告可能恢复。
 
 ## 维护
 
