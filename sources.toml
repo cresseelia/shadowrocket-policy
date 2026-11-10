@@ -68,3 +68,8 @@ fallback_max_days = 7
 [checks]
 early = ["metrics-picture.d.meituan.net", "spider-tracker.xiaohongshu.com", "catfront.dianping.com"]
 early_unbound = ["www.baidu.com", "www.google.com"]
+
+[adblock]
+url = "https://raw.githubusercontent.com/zirawell/R-Store/refs/heads/main/Rule/Surge/Adblock/All/allAdBlock.sgmodule"
+min_lines = 3000
+min_rules = 1000

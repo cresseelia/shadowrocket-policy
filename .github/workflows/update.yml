@@ -47,7 +47,7 @@ jobs:
           PY
       - name: Publish successful generation
         run: |
-          git add -- generated/native-reject.module generated/reject-deferred.list generated/direct.list generated/manifest.json
+          git add -- generated/native-reject.module generated/reject-deferred.list generated/direct.list generated/adblock.module generated/manifest.json
           if git diff --cached --quiet; then
             echo 'Sources and generated policy are unchanged.'
             exit 0

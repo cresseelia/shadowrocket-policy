@@ -5,7 +5,7 @@ import tempfile
 import unittest
 from unittest.mock import patch
 
-from generate import build, fetch, parse, write_outputs
+from generate import add_adblock, build, curate_adblock, fetch, parse, write_outputs
 
 
 def source(name='test', policy='REJECT', use='routing', format='module', early=False):
@@ -14,6 +14,55 @@ def source(name='test', policy='REJECT', use='routing', format='module', early=F
 
 
 class GenerationTests(unittest.TestCase):
+    def adblock_fixture(self, status=None):
+        if status is None:
+            status = (r'^https?:\/\/ios\.chat\.openai\.com\/public-api\/mobile\/app_support_status '
+                      'data-type=json data="{}" status-code=200\n')
+        return ('#!name=Upstream\n#!author=Original Author\n#!url=https://example.com/original.module\n'
+                '[Rule]\nDOMAIN,ads.example.com,REJECT,pre-matching\n'
+                '[Map Local]\n' + status +
+                '^https://example.com/ad data-type=json data="{}"\n'
+                '[Script]\noriginal=type=http-response,pattern=^https://example.com/,script-path=https://example.com/a.js\n'
+                '[MITM]\nhostname = example.com\n').encode()
+
+    def test_adblock_preserves_features_and_attribution_while_restoring_status(self):
+        config = {'url': 'https://example.com/adblock.module', 'min_lines': 1, 'min_rules': 1}
+        body = self.adblock_fixture()
+        result, metadata = curate_adblock(config, body)
+        self.assertNotIn('app_support_status', result)
+        self.assertIn('#!author=Original Author\n', result)
+        self.assertNotIn('#!url=https://example.com/original.module', result)
+        self.assertIn('generated/adblock.module\n', result)
+        self.assertEqual(result[result.index('[Rule]'):],
+                         body.decode()[body.decode().index('[Rule]'):].replace(
+                             next(line for line in body.decode().splitlines(True) if 'app_support_status' in line), '', 1))
+        self.assertEqual(metadata['removed_empty_chatgpt_status_rules'], 1)
+        files = add_adblock(build([], {}), config, body)
+        self.assertIn('adblock.module', json.loads(files['manifest.json'])['files'])
+
+    def test_adblock_stops_if_the_status_rewrite_changes_semantics(self):
+        config = {'url': 'https://example.com/adblock.module', 'min_lines': 1, 'min_rules': 1}
+        status = ('^https://ios.chat.openai.com/public-api/mobile/app_support_status '
+                  'data-type=json data="[]" status-code=200\n')
+        with self.assertRaisesRegex(ValueError, 'status rewrite changed'):
+            curate_adblock(config, self.adblock_fixture(status))
+        fixed, metadata = curate_adblock(config, self.adblock_fixture(''))
+        self.assertEqual(metadata['removed_empty_chatgpt_status_rules'], 0)
+        self.assertIn('[Script]', fixed)
+
+    def test_adblock_rejects_error_pages_and_truncated_modules(self):
+        config = {'url': 'https://example.com/adblock.module', 'min_lines': 1, 'min_rules': 1}
+        with self.assertRaises(ValueError):
+            curate_adblock(config, b'<html>error</html>')
+        with self.assertRaises(ValueError):
+            curate_adblock(config, b'#!name=Unexpected\n[Rule]\nDOMAIN,ads.example.com,REJECT\n')
+
+    def test_adblock_stops_if_status_regex_escaping_changes(self):
+        config = {'url': 'https://example.com/adblock.module', 'min_lines': 1, 'min_rules': 1}
+        body = self.adblock_fixture().replace(rb'ios\.chat', b'ios.chat')
+        with self.assertRaisesRegex(ValueError, 'status rewrite changed'):
+            curate_adblock(config, body)
+
     def test_domainset_leading_dot_and_tld_are_preserved(self):
         item = parse(source('cn', 'DIRECT', format='domainset'), b'# comment\n.cn\n.example.com\nexact.example.org\n')
         self.assertIn(('DOMAIN-SUFFIX', 'cn', ()), item.domains)

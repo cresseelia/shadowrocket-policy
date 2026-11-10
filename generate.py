@@ -22,6 +22,9 @@ EXTRA_TYPES = {'DOMAIN-KEYWORD', 'DOMAIN-WILDCARD', 'IP-CIDR', 'IP-CIDR6',
                'USER-AGENT', 'DST-PORT', 'SRC-PORT', 'SRC-IP', 'PROTOCOL',
                'AND', 'OR', 'NOT'}
 LIMIT = 24_000_000
+ADBLOCK_URL = 'https://raw.githubusercontent.com/cresseelia/shadowrocket-policy/main/generated/adblock.module'
+CHATGPT_EMPTY_STATUS = (r'^https?:\/\/ios\.chat\.openai\.com\/public-api\/mobile\/app_support_status '
+                       'data-type=json data="{}" status-code=200')
 
 
 @dataclass
@@ -214,15 +217,24 @@ def build(parsed, checks, corrections=None):
     return files
 
 
+def download(url):
+    parsed_url = urlsplit(url)
+    if (parsed_url.scheme != 'https' or not parsed_url.hostname or parsed_url.username
+            or parsed_url.password or parsed_url.query or parsed_url.fragment):
+        raise ValueError('Expected a public HTTPS source URL')
+    request = Request(url, headers={'User-Agent': 'shadowrocket-policy/1.0'})
+    with urlopen(request, timeout=45) as response:
+        if urlsplit(response.url).scheme != 'https':
+            raise ValueError('Upstream redirected away from HTTPS')
+        body = response.read(LIMIT + 1)
+    if len(body) > LIMIT:
+        raise ValueError('Upstream exceeds size limit')
+    return body
+
+
 def fetch(source, source_root=Path('.')):
     try:
-        request = Request(source['url'], headers={'User-Agent': 'shadowrocket-policy/1.0'})
-        with urlopen(request, timeout=45) as response:
-            if urlsplit(response.url).scheme != 'https':
-                raise ValueError('Upstream redirected away from HTTPS')
-            body = response.read(LIMIT + 1)
-        if len(body) > LIMIT:
-            raise ValueError('Upstream exceeds size limit')
+        body = download(source['url'])
         return parse(source, body)
     except Exception as error:
         if source.get('fallback') and source['use'] == 'dns':
@@ -239,6 +251,63 @@ def fetch(source, source_root=Path('.')):
         if isinstance(error, HTTPError):
             detail += ' ' + str(error.code)
         raise ValueError(source['name'] + ': ' + detail) from None
+
+
+def curate_adblock(source, body):
+    """Keep upstream features in order; omit the verified empty status response."""
+    text = body.decode('utf-8-sig')
+    if '<html' in text[:1024].lower() or text.lstrip().startswith('<!DOCTYPE'):
+        raise ValueError('HTML received instead of the adblock module')
+    lines = text.splitlines(keepends=True)
+    if len(lines) < source.get('min_lines', 3000):
+        raise ValueError('Adblock module fell below its minimum size')
+    section = None
+    sections = set()
+    output = []
+    removed = 0
+    renamed = 0
+    rule_count = 0
+    for raw in lines:
+        line = raw.strip()
+        if line.startswith('#!name='):
+            output.append('#!name=Shadowrocket Adblock\n#!url=' + ADBLOCK_URL + '\n')
+            renamed += 1
+            continue
+        if line.startswith('#!url='):
+            continue
+        if line.startswith(('#', ';', '//')) or not line:
+            output.append(raw)
+            continue
+        if line.startswith('[') and line.endswith(']'):
+            section = line.lower()
+            sections.add(section)
+        elif 'app_support_status' in line:
+            if section != '[map local]' or line != CHATGPT_EMPTY_STATUS:
+                raise ValueError('ChatGPT status rewrite changed; review before publishing')
+            removed += 1
+            continue
+        elif section == '[rule]':
+            rule_count += 1
+        output.append(raw)
+    if renamed != 1 or not {'[rule]', '[map local]', '[script]', '[mitm]'} <= sections:
+        raise ValueError('Adblock module structure changed')
+    if rule_count < source.get('min_rules', 1000):
+        raise ValueError('Adblock rules fell below their minimum count')
+    return ''.join(output), {'url': source['url'], 'sha256': hashlib.sha256(body).hexdigest(),
+                            'removed_empty_chatgpt_status_rules': removed,
+                            'preserved_rule_count': rule_count}
+
+
+def add_adblock(files, source, body):
+    module, metadata = curate_adblock(source, body)
+    files = dict(files)
+    files['adblock.module'] = module
+    manifest = json.loads(files['manifest.json'])
+    manifest['adblock_source'] = metadata
+    manifest['files']['adblock.module'] = {'bytes': len(module.encode()),
+                                         'sha256': hashlib.sha256(module.encode()).hexdigest()}
+    files['manifest.json'] = json.dumps(manifest, ensure_ascii=False, indent=2) + '\n'
+    return files
 
 
 def write_outputs(directory, files):
@@ -288,10 +357,14 @@ def main():
     parser.add_argument('--corrections', type=Path, default=Path('corrections.toml'))
     args = parser.parse_args()
     sources, checks = load_manifest(args.sources)
+    adblock = tomllib.loads(args.sources.read_text(encoding='utf-8')).get('adblock')
     with ThreadPoolExecutor(max_workers=4) as pool:
+        adblock_download = pool.submit(download, adblock['url']) if adblock else None
         parsed = list(pool.map(lambda source: fetch(source, args.sources.parent), sources))
     corrections = tomllib.loads(args.corrections.read_text(encoding='utf-8'))
     files = build(parsed, checks, corrections)
+    if adblock:
+        files = add_adblock(files, adblock, adblock_download.result())
     write_outputs(args.output, files)
     print(json.dumps(json.loads(files['manifest.json']), ensure_ascii=False, indent=2))
 
