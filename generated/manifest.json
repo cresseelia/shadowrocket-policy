@@ -23,8 +23,8 @@
     {
       "name": "gmo-direct",
       "url": "https://cdn.jsdelivr.net/gh/GMOogway/shadowrocket-rules@master/sr_direct_list.module",
-      "sha256": "d581e9abad52c15659cdf55fbfb9cd1f7aeac8bc9cdbe2e7063110c9f17efab3",
-      "domains": 110191,
+      "sha256": "413bfe297e1b6e66c7dba29812ac2d4128ab36bed9d6d30f4ad1b5f33f56bcb9",
+      "domains": 110192,
       "extra_rules": 8,
       "fallback": false,
       "fallback_recorded": null,
@@ -33,8 +33,8 @@
     {
       "name": "main-reject",
       "url": "https://cdn.jsdelivr.net/gh/Vincent-Loeng/shadowrocket-rules@release/reject.list",
-      "sha256": "9b64ca394419c73315794dc059f8fea9f3397a814d3768a2e90f0f936ee728fa",
-      "domains": 197182,
+      "sha256": "4f78cff7985b2e14eafa8e55030aad5f7429665f6c560ee948fe6b5fa1b3b1e7",
+      "domains": 197596,
       "extra_rules": 0,
       "fallback": false,
       "fallback_recorded": null,
@@ -43,8 +43,8 @@
     {
       "name": "gmo-reject",
       "url": "https://cdn.jsdelivr.net/gh/GMOogway/shadowrocket-rules@master/sr_reject_list.module",
-      "sha256": "2f08a46b163139cbecae8288e21d14436fb16c303141c578d4796098017271e5",
-      "domains": 197189,
+      "sha256": "be957aef73bc8fbd62502f291cfc629753efdee7ae5057f847e188bf80a6d57d",
+      "domains": 197603,
       "extra_rules": 0,
       "fallback": false,
       "fallback_recorded": null,
@@ -71,8 +71,8 @@
       "skipped_other_policies": 0
     }
   ],
-  "routing_direct_rules": 112811,
-  "native_early_reject_rules": 197507,
+  "routing_direct_rules": 112812,
+  "native_early_reject_rules": 197921,
   "native_deferred_rules": [
     {
       "kind": "DOMAIN-SUFFIX",
@@ -100,16 +100,16 @@
   },
   "files": {
     "native-reject.module": {
-      "bytes": 10852662,
-      "sha256": "08f43431c8f48eda4af034c8a49c5f048e6dd1c72eea948615fc309b04be2e6d"
+      "bytes": 10874933,
+      "sha256": "7e3b498af75ce324ad64c4cbd1d1fd5232839f07866e9a1889ee1e032c35d89a"
     },
     "reject-deferred.list": {
       "bytes": 86,
       "sha256": "6c74b582fed1e26c1171b957f2b0bac3da24cd89601378faa0e60b86c8ec22db"
     },
     "direct.list": {
-      "bytes": 3009106,
-      "sha256": "d792184b89442f51f048c2cfd17696b391d4512b1bc2623c3853226a316dcdaf"
+      "bytes": 3009134,
+      "sha256": "69059095d53f5291f762f337c67cf0f8e42923593f8e30874b84cdf1011e7c2a"
     },
     "adblock.module": {
       "bytes": 373402,
