@@ -23,7 +23,7 @@
     {
       "name": "gmo-direct",
       "url": "https://cdn.jsdelivr.net/gh/GMOogway/shadowrocket-rules@master/sr_direct_list.module",
-      "sha256": "b764cca3c8b08c6dd5a5894d38a505dde68adf7ef1691a673d8451e38eba57fb",
+      "sha256": "ea6358496acd10100bf4037bda424f80aa240cb62ef0be477701d8d049940307",
       "domains": 110192,
       "extra_rules": 8,
       "fallback": false,
@@ -33,8 +33,8 @@
     {
       "name": "main-reject",
       "url": "https://cdn.jsdelivr.net/gh/Vincent-Loeng/shadowrocket-rules@release/reject.list",
-      "sha256": "5b2bc7068a64215b88a8f66a871a4d4f93560c96ac16eccf8c88d54f5c182fe3",
-      "domains": 199528,
+      "sha256": "c34a115cf5cadf52607f61796471790f8f09ded17b0810d67adb1b24843fb2cf",
+      "domains": 199928,
       "extra_rules": 0,
       "fallback": false,
       "fallback_recorded": null,
@@ -43,8 +43,8 @@
     {
       "name": "gmo-reject",
       "url": "https://cdn.jsdelivr.net/gh/GMOogway/shadowrocket-rules@master/sr_reject_list.module",
-      "sha256": "b414c7b5b1eea8307189d1c9f4f6ea13119cb123e5485a6911e69c41e66fcc48",
-      "domains": 199535,
+      "sha256": "01777d641a634338ea4cb75a6eacc2476ce6de7497b3e7aeedaa1aaaba1ab879",
+      "domains": 199935,
       "extra_rules": 0,
       "fallback": false,
       "fallback_recorded": null,
@@ -72,7 +72,7 @@
     }
   ],
   "routing_direct_rules": 112812,
-  "native_early_reject_rules": 199853,
+  "native_early_reject_rules": 200253,
   "native_deferred_rules": [
     {
       "kind": "DOMAIN-SUFFIX",
@@ -100,8 +100,8 @@
   },
   "files": {
     "native-reject.module": {
-      "bytes": 10982495,
-      "sha256": "9112144d5211279fa9b4ac595af56f14b5447d1c370d493ca48181444abe8ea9"
+      "bytes": 11003995,
+      "sha256": "b92a0009346cbe1961c6cc55b1dad9e414806acb6b2768a5d683fd214607084f"
     },
     "reject-deferred.list": {
       "bytes": 86,
@@ -112,15 +112,15 @@
       "sha256": "69059095d53f5291f762f337c67cf0f8e42923593f8e30874b84cdf1011e7c2a"
     },
     "adblock.module": {
-      "bytes": 373473,
-      "sha256": "a4daa02f8c20b6605df756c6d175c74686b03d07b3fc138a80f9a1d210eea767"
+      "bytes": 374010,
+      "sha256": "6b42fe27fa1826058c11ffe2057e6956b9a647602c251b5af90e957aa6cab45d"
     }
   },
   "adblock_source": {
     "url": "https://raw.githubusercontent.com/zirawell/R-Store/refs/heads/main/Rule/Surge/Adblock/All/allAdBlock.sgmodule",
-    "sha256": "a59de23d4ac3aeb68cdac3ff51c703f67e5818a40ca6859b0f75ad33fa9c2d83",
+    "sha256": "a186765c08f75a5f7cac2d8d98acf62de6b70ba6ffc6039cf3307f95ba670358",
     "removed_empty_chatgpt_status_rules": 1,
     "repaired_travelcube_exception_rules": 2,
-    "preserved_rule_count": 1444
+    "preserved_rule_count": 1445
   }
 }
