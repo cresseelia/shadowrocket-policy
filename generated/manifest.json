@@ -23,8 +23,8 @@
     {
       "name": "gmo-direct",
       "url": "https://cdn.jsdelivr.net/gh/GMOogway/shadowrocket-rules@master/sr_direct_list.module",
-      "sha256": "c42648e79fab10e660e44034b4367403e2f1cc6be3b65f965a4521480b2bcf49",
-      "domains": 110291,
+      "sha256": "6c843a8ac7224bae5ab893567a3b7afec84b43eafc9918dc343ef7cdfc775603",
+      "domains": 110242,
       "extra_rules": 8,
       "fallback": false,
       "fallback_recorded": null,
@@ -33,8 +33,8 @@
     {
       "name": "main-reject",
       "url": "https://cdn.jsdelivr.net/gh/Vincent-Loeng/shadowrocket-rules@release/reject.list",
-      "sha256": "7c7a41121acd50aa2706b180492aee493687ab746a06b61a23ad01e76a11d4cf",
-      "domains": 200344,
+      "sha256": "666e3fcd28b0b0a50855dbb5fc432755f22902dc2a45856d827860536c45616e",
+      "domains": 200708,
       "extra_rules": 0,
       "fallback": false,
       "fallback_recorded": null,
@@ -43,8 +43,8 @@
     {
       "name": "gmo-reject",
       "url": "https://cdn.jsdelivr.net/gh/GMOogway/shadowrocket-rules@master/sr_reject_list.module",
-      "sha256": "1bc089ce32caf3ba01af0e04566c0fff5c95a84bfaf5517a0e06a5542d877d95",
-      "domains": 200351,
+      "sha256": "873432efd9bc2719c7a78d73e3581fcab3db89a3d38d82ce987236dbbf4ae628",
+      "domains": 200715,
       "extra_rules": 0,
       "fallback": false,
       "fallback_recorded": null,
@@ -71,8 +71,8 @@
       "skipped_other_policies": 0
     }
   ],
-  "routing_direct_rules": 112911,
-  "native_early_reject_rules": 200669,
+  "routing_direct_rules": 112909,
+  "native_early_reject_rules": 201033,
   "native_deferred_rules": [
     {
       "kind": "DOMAIN-SUFFIX",
@@ -100,25 +100,25 @@
   },
   "files": {
     "native-reject.module": {
-      "bytes": 11026303,
-      "sha256": "0623a808bfe94545885d8e702cc4bb1dae652e312ddc55a662842dd75530566c"
+      "bytes": 11045929,
+      "sha256": "fa3786d4ad7598d8f5b16d7a2192087ee98ec74f72eff00b845952c78c624726"
     },
     "reject-deferred.list": {
       "bytes": 86,
       "sha256": "6c74b582fed1e26c1171b957f2b0bac3da24cd89601378faa0e60b86c8ec22db"
     },
     "direct.list": {
-      "bytes": 3011821,
-      "sha256": "a86c35e7a657638d5cb94034c174bccbbe82d58d4ccf10012437845ea4965d2b"
+      "bytes": 3011760,
+      "sha256": "ba83090c7a3e94ba44493455acce6a79ee5c926571340afe63106d2b7c91f445"
     },
     "adblock.module": {
-      "bytes": 373951,
-      "sha256": "f9521b88a3617d214725483f3ad91f024c2c51f072f77f3eec6fde79fe73211a"
+      "bytes": 374163,
+      "sha256": "efece7663c9e0279c410c1c79dfe9afef83ac8e3f9bcc1b54cb66bf732d15565"
     }
   },
   "adblock_source": {
     "url": "https://raw.githubusercontent.com/zirawell/R-Store/refs/heads/main/Rule/Surge/Adblock/All/allAdBlock.sgmodule",
-    "sha256": "b1273197da1fc318bd73bcfad928105b1235d7c1b62008538792fe1ba4280a20",
+    "sha256": "b5a86bacce32f89ec1470829aabfbb94936a6ef2f091b1d51990d6f6b9e23888",
     "removed_empty_chatgpt_status_rules": 1,
     "repaired_travelcube_exception_rules": 2,
     "preserved_rule_count": 1444
